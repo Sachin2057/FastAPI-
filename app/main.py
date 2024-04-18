@@ -32,7 +32,7 @@ def get_employees(db: Session = Depends(get_db)):
 
     Returns
     -------
-
+        All the employee info in json
     """
     return db.query(Employee).all()
 
@@ -72,7 +72,7 @@ def update_employee(employee_id: int, employee: EmployeeData, db: Session = Depe
     if not existing_employee:
         raise HTTPException(status_code=404, detail="Employee not found")
 
-    existing_employee.name = employee.name
+    existing_employee.name = f"{employee.first_name} {employee.middle_name} {employee.last_name}"
     existing_employee.department = employee.department
     db.commit()
     db.refresh(existing_employee)
